@@ -2,29 +2,50 @@ const mongoose = require('mongoose');
 
 const customerSchema = new mongoose.Schema(
 	{
-		first_name: String,
-		last_name: String,
+		first_name: {
+			type: String,
+			required: 'First Name is required'
+		},
+		last_name: {
+			type: String,
+			required: 'Last Name is required'
+		},
 		email: {
 			type: String,
-			required: true
+			required: 'Email is required'
 		},
-		number_pieces: Number,
+		number_pieces: {
+			type: Number,
+			required: 'Number of pieces is required'
+		},
 		customer_address: String,
 		transport_type: {
 			type: String,
+			required: 'Transport type is required',
 			enum: [ 'fret aérien', 'fret maritime', 'fret terrestre' ]
 		},
 		freight_ID: {
 			type: String,
-			required: true
+			required: 'Freight ID is required'
 		},
 		tracking_number: {
 			type: Number,
-			required: true,
+			unique: true,
+			required: 'Tracking number is required',
 			index: true
 		},
-		country: String,
-		phone_number: String,
+		country: {
+			type: String,
+			required: 'Country is required'
+		},
+		city: {
+			type: String,
+			required: 'City name is required'
+		},
+		phone_number: {
+			type: String,
+			required: 'Phone number is required'
+		},
 		estimated_arrival: Date,
 		status: {
 			type: String,
