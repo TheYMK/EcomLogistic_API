@@ -28,7 +28,11 @@ mongoose
 // ============================================================
 app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '2mb' }));
-app.use(cors());
+// app.use(cors());
+// cors - (works only in browser to browser communication)
+if (process.env.NODE_ENV === 'development') {
+	app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
+}
 // ============================================================
 //                      Route Middlewares
 // ============================================================

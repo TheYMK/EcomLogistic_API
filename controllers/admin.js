@@ -1,5 +1,6 @@
 const Customer = require('../models/customer');
 const User = require('../models/user');
+const { sendEmailWithNodemailer } = require('../helpers/email');
 
 exports.create = async (req, res) => {
 	try {
@@ -11,6 +12,33 @@ exports.create = async (req, res) => {
 			});
 		} else {
 			const newCustomer = await new Customer(req.body).save();
+			const emailData = {
+				from: process.env.EMAIL,
+				to: newCustomer.email,
+				subject: `${process.env.APP_NAME} | Votre numéro de suivi est disponible`,
+				text: `Merci de faire confiance à E-Comores Services pour la gestion et l'envoi de vos colis. Vous trouverez ci-dessous votre numero de suivi.`,
+				html: `
+				<h4>Vos informations:</h4>
+				<p>Merci de faire confiance à E-Comores Services pour la gestion et l'envoi de vos colis. Vous trouverez ci-dessous votre numero de suivi.</p>
+				<br/>
+				<br/>
+				<p><b>Nom et prénom:</b> ${newCustomer.first_name} ${newCustomer.last_name}</p>
+				<p><b>Email:</b> ${newCustomer.email}</p>
+				<p><b>Phone number:</b> ${newCustomer.phone_number}</p>
+				<p><b>Numero de suivi:</b> ${newCustomer.tracking_number}</p>
+				<p><b>Nombre de colis:</b> ${newCustomer.number_pieces}</p>
+				<p><b>Adresse de destination:</b> ${newCustomer.customer_address}</p>
+				<p><b>Pays:</b> ${newCustomer.country}</p>
+				<p><b>Ville:</b> ${newCustomer.city}</p>
+				<p><b>Type de fret:</b> ${newCustomer.transport_type}</p>
+				<p><b>ID du fret:</b> ${newCustomer.freight_ID}</p>
+				<p><b>Estimation d'arrivée:</b> ${newCustomer.estimated_arrival}</p>
+				<hr/>
+				<p>Cet email contient des informations sensitive. À ne pas partager.</p>
+				<p>https://ecomores-services.com</p>
+				`
+			};
+			sendEmailWithNodemailer(req, res, emailData);
 			res.json(newCustomer);
 		}
 	} catch (err) {
