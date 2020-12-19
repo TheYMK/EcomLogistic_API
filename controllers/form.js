@@ -8,12 +8,12 @@ exports.contactForm = (req, res) => {
 		from: process.env.EMAIL, // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
 		to: 'contact@ecomores-services.com', // WHO SHOULD BE RECEIVING THIS EMAIL? IT SHOULD BE YOUR GMAIL
 		subject: `${process.env.APP_NAME} | Contact Form`,
-		text: `Un email vous a été envoyé depuis le site E-Com logistics \n Nom de l'envoyeur: ${name} \n Email de l'envoyeur: ${email} \n Message de l'envoyeur: ${message}`,
+		text: `Un email vous a été envoyé depuis le site E-Com logistics \n Nom: ${name} \n Email: ${email} \n Message: ${message}`,
 		html: `
-        <h4>Email reçu depuis la section contact du site E-Com logistics</h4>
-        <p>Nom de l'envoyeur: ${name}</p>
-        <p>Email de l'envoyeur: ${email}</p>
-        <p>Message de l'envoyeur: ${message}</p>
+        <h4>Un email vous a été envoyé depuis le site E-Com logistics</h4>
+        <p>Nom: ${name}</p>
+        <p>Email: ${email}</p>
+        <p>Message:<br/> ${message}</p>
         <hr />
         <p>Cet email contient des informations sensitive. À ne pas partager.</p>
 		<p>https://ecomores-services.com</p>
